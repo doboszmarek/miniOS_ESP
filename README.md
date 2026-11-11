@@ -29,7 +29,19 @@ bez pełnej izolacji procesów (S3 nie ma MMU z tablicami stron, tylko PMS / Wor
   testowane na esp-develop-9.0.0-20240606
 - `pip install esptool` (v5)
 
-## Uruchomienie kroku
+## Wgranie na płytkę (Windows)
+
+Gotowe obrazy leżą w `bin/`, więc toolchain nie jest potrzebny. W katalogu repo:
+
+```
+flash            :: najnowszy obraz, port COM6, potem monitor
+flash 01         :: konkretny krok (bin\01-*.bin)
+flash 01 COM7    :: inny port
+```
+
+Domyślny port można zmienić na stałe: `setx MINIOS_PORT COM7`. Z monitora wychodzi się przez Ctrl+].
+
+## Budowanie i uruchomienie kroku
 
 ```sh
 cd 01-hello
