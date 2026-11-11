@@ -17,6 +17,16 @@ IRAM `0x4037xxxx` i DRAM `0x3FCxxxxx` to **ten sam fizyczny SRAM** (przesunięci
 | stos ROM-u (używamy go w kroku 1) | 0x3FCE9710 – 0x3FCEB710 | |
 | zarezerwowane przez ROM | od 0x3FCD7E00 w górę | |
 
+## Konsola: UART0 + USB-Serial/JTAG
+
+Każdy znak idzie na dwa wyjścia:
+- **UART0** (GPIO43/44, port „COM/UART” płytki, przez mostek USB-UART),
+- **USB-Serial/JTAG** (natywny port „USB”, VID 303A:1001). Bajty trafiają do 64-bajtowego
+  bufora EP1 (`0x60038000`), a bit `WR_DONE` w `EP1_CONF` (`0x60038004`) wysyła paczkę do PC.
+  Jeśli PC nie odbiera, czekamy z limitem czasu i gubimy znaki, zamiast zawiesić system.
+
+Wystarczy więc jeden kabel w porcie „USB”: flashowanie, reset i podgląd idą tą samą drogą.
+
 ## Pułapki
 
 - **Napisy w DRAM, nie w IRAM.** Odczyt bajtu z IRAM daje wyjątek `LoadStoreError`.
