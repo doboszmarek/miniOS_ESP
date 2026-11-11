@@ -41,7 +41,28 @@ flash 01 COM7    :: inny port
 
 Domyślny port można zmienić na stałe: `setx MINIOS_PORT COM7`. Z monitora wychodzi się przez Ctrl+].
 
-## Budowanie i uruchomienie kroku
+## Budowanie na Windows
+
+Jednorazowo: toolchain do katalogu `tools\` w repo (ok. 370 MB, ignorowany przez Git):
+
+```
+cd /d D:\CODING\miniOS\miniOS
+mkdir tools
+curl -L -o tools\tc.zip https://github.com/espressif/crosstool-NG/releases/download/esp-14.2.0_20241119/xtensa-esp-elf-14.2.0_20241119-x86_64-w64-mingw32.zip
+tar -xf tools\tc.zip -C tools
+del tools\tc.zip
+```
+
+Potem:
+
+```
+build 01         :: 01-hello\*.c + link.ld  ->  bin\01-hello.bin
+flash 01
+```
+
+ELF i mapa linkera lądują w `build\01-hello\`. Starą wersję obrazu przywrócisz przez `git checkout bin`.
+
+## Budowanie i uruchomienie kroku (Linux, make, QEMU)
 
 ```sh
 cd 01-hello

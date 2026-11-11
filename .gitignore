@@ -3,5 +3,6 @@
 *.map
 *.img
 build/
+tools/
 # gotowe obrazy do wgrania trzymamy w repo
 !bin/*.bin
