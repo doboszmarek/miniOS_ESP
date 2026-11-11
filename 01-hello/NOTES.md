@@ -61,3 +61,13 @@ QEMU nie odwzorowuje taktowania dokładnie.
 1. `make info`: porównaj segmenty z sekcjami ELF.
 2. `xtensa-esp32s3-elf-objdump -d hello.elf | less`: znajdź `entry a1, ...` na początku `kernel_entry`.
 3. Zakomentuj `watchdogs_off()` i wgraj na płytkę: po kilku sekundach zobaczysz reset od watchdoga (`rst:0x...`).
+
+## Wynik ćwiczenia: `.text` od 0x40370000
+
+Sprawdzone na płytce (S3 rev v0.2): obraz z `iram ORIGIN = 0x40370000` ładuje się i działa.
+Po resecie ROM nie oddaje SRAM0 (0x40370000–0x40377FFF, 32 KB, tylko szyna instrukcji)
+cache'owi, bo flash czyta bezpośrednio przez SPI.
+
+Mimo to zostajemy przy 0x40378000: w kroku 7 (XIP) włączymy cache instrukcji i sprzęt
+zajmie SRAM0, a kod, który by tam leżał, zniknąłby w trakcie wykonywania.
+Do tego czasu SRAM0 nadaje się najwyżej na kod jednorazowy (inicjalizację).
